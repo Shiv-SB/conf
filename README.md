@@ -16,3 +16,17 @@ chmod +x setup.sh
 Will not overwrite existing config.
 
 Compatible with bash < 4 (for Mac OS)
+
+## Installs
+
+This script will install (if not installed already)
+
+- oh-my-ZSH
+- Homebrew
+- Powerlevl10k
+- zsh-autosuggestons
+- zsh-syntax-highlighting
+- Node via NVM
+- Bun
+- Go
+- Docker
