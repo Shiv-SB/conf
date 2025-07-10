@@ -8,9 +8,13 @@ To run, pull from github and run:
 
 ```bash
 chmod +x setup.sh
-
 ./setup.sh
-./setup.sh --dry-run # optional dry-run
+```
+
+```bash
+# With optional dry run:
+chmod +x setup.sh
+./setup.sh --dry-run
 ```
 
 Will not overwrite existing config.
