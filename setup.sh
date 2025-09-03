@@ -72,6 +72,23 @@ else
   CASK_INSTALL=":"
 fi
 
+# --- Homebrew ---
+if ! command -v brew &>/dev/null; then
+  log "Homebrew not found. Installing Homebrew..."
+  run '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+  # For Linux, add Brew to PATH if needed
+  if [[ "$OS" != "Darwin" ]]; then
+    if ! grep -q '/home/linuxbrew/.linuxbrew/bin' "$HOME/.profile"; then
+      echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "$HOME/.profile"
+      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    fi
+  else
+    eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || eval "$(/usr/local/bin/brew shellenv)" 2>/dev/null
+  fi
+else
+  log "Homebrew is already installed"
+fi
+
 # --- Oh My Zsh ---
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   log "Installing Oh My Zsh"
@@ -179,7 +196,9 @@ fi
 
 # --- CLI tools ---
 log "Installing extra CLI tools"
-run "$PKG_INSTALL tmux fzf ripgrep bat fastfetch"
+run "$PKG_INSTALL tmux fzf ripgrep bat"
+run "brew install fastfetch"
+
 
 # --- Zsh config ---
 if [[ -f "$ZSHRC_PATH" ]]; then
