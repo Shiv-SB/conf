@@ -138,14 +138,31 @@ if ! command -v go &>/dev/null; then
   if [[ "$OS" == "Darwin" ]]; then
     run "$PKG_INSTALL go"
   else
+    # Set Go version and correct architecture string
     GO_VER="1.22.3"
-    run "wget https://go.dev/dl/go${GO_VER}.linux-${ARCH}.tar.gz -O /tmp/go.tar.gz"
-    run "sudo tar -C /usr/local -xzf /tmp/go.tar.gz"
-    echo 'export PATH=$PATH:/usr/local/go/bin' >> "$HOME/.profile"
+    GO_ARCH="$ARCH"
+    if [[ "$ARCH" == "x86_64" ]]; then
+      GO_ARCH="amd64"
+    elif [[ "$ARCH" == "aarch64" ]]; then
+      GO_ARCH="arm64"
+    fi
+
+    # Download and extract Go
+    GO_TGZ_URL="https://go.dev/dl/go${GO_VER}.linux-${GO_ARCH}.tar.gz"
+    run "wget $GO_TGZ_URL -O /tmp/go${GO_VER}.linux-${GO_ARCH}.tar.gz"
+    run "sudo rm -rf /usr/local/go"
+    run "sudo tar -C /usr/local -xzf /tmp/go${GO_VER}.linux-${GO_ARCH}.tar.gz"
+    # Ensure /usr/local/go/bin is in PATH for both current and future shells
+    if ! grep -q '/usr/local/go/bin' "$HOME/.profile"; then
+      echo 'export PATH=$PATH:/usr/local/go/bin' >> "$HOME/.profile"
+      log "Added /usr/local/go/bin to PATH via .profile"
+    fi
+    export PATH="$PATH:/usr/local/go/bin"
   fi
 else
   log "Go already installed"
 fi
+
 
 # --- Docker ---
 if ! command -v docker &>/dev/null; then
