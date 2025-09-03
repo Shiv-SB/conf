@@ -75,7 +75,7 @@ fi
 # --- Homebrew ---
 if ! command -v brew &>/dev/null; then
   log "Homebrew not found. Installing Homebrew..."
-  run '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+  run 'NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
   # For Linux, add Brew to PATH if needed
   if [[ "$OS" != "Darwin" ]]; then
     if ! grep -q '/home/linuxbrew/.linuxbrew/bin' "$HOME/.profile"; then
