@@ -66,9 +66,9 @@ if [[ "$OS" == "Darwin" ]]; then
   PKG_INSTALL="brew install"
   CASK_INSTALL="brew install --cask"
 else
-  run "apt update -y"
-  run "apt install -y curl git zsh tmux unzip wget build-essential"
-  PKG_INSTALL="apt install -y"
+  run "sudo apt update -y"
+  run "sudo apt install -y curl git zsh tmux unzip wget build-essential"
+  PKG_INSTALL="sudo apt install -y"
   CASK_INSTALL=":"
 fi
 
