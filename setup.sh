@@ -66,9 +66,9 @@ if [[ "$OS" == "Darwin" ]]; then
   PKG_INSTALL="brew install"
   CASK_INSTALL="brew install --cask"
 else
-  run "sudo apt update -y"
-  run "sudo apt install -y curl git zsh tmux unzip wget build-essential"
-  PKG_INSTALL="sudo apt install -y"
+  run "apt update -y"
+  run "apt install -y curl git zsh tmux unzip wget build-essential"
+  PKG_INSTALL="apt install -y"
   CASK_INSTALL=":"
 fi
 
@@ -167,8 +167,8 @@ if ! command -v go &>/dev/null; then
     # Download and extract Go
     GO_TGZ_URL="https://go.dev/dl/go${GO_VER}.linux-${GO_ARCH}.tar.gz"
     run "wget $GO_TGZ_URL -O /tmp/go${GO_VER}.linux-${GO_ARCH}.tar.gz"
-    run "sudo rm -rf /usr/local/go"
-    run "sudo tar -C /usr/local -xzf /tmp/go${GO_VER}.linux-${GO_ARCH}.tar.gz"
+    run "rm -rf /usr/local/go"
+    run "tar -C /usr/local -xzf /tmp/go${GO_VER}.linux-${GO_ARCH}.tar.gz"
     # Ensure /usr/local/go/bin is in PATH for both current and future shells
     if ! grep -q '/usr/local/go/bin' "$HOME/.profile"; then
       echo 'export PATH=$PATH:/usr/local/go/bin' >> "$HOME/.profile"
@@ -187,8 +187,8 @@ if ! command -v docker &>/dev/null; then
   if [[ "$OS" == "Darwin" ]]; then
     run "$CASK_INSTALL docker"
   else
-    run "sudo apt install -y docker.io"
-    run "sudo usermod -aG docker $USER"
+    run "apt install -y docker.io"
+    run "usermod -aG docker $USER"
   fi
 else
   log "Docker already installed"
