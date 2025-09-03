@@ -120,10 +120,9 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-log "Installing latest LTS Node.js with NVM"
-run "nvm install --lts"
-run "nvm use --lts"
-run "nvm alias default 'lts/*'"
+log "Installing latest Node.js with NVM"
+run "nvm install node"
+run "nvm use node"
 
 # --- Bun ---
 if ! command -v bun &>/dev/null; then
