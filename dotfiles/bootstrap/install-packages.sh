@@ -9,6 +9,7 @@ COMMON_PACKAGES=(
   micro
   zsh
   fastfetch
+  stockfish
 )
 
 EXTRA_MAC_PACKAGES=()
@@ -78,4 +79,7 @@ fi
 if command -v cargo &>/dev/null && ! command -v chess-tui &>/dev/null; then
   echo "Installing chess-tui..."
   cargo install chess-tui || echo "Failed to install chess-tui"
+  if (command -v chess-tui &>/dev/null); then
+  	echo "Link chess-tui to Stockfish..."
+  	chess-tui -e /opt/homebrew/opt/stockfish/bin
 fi
