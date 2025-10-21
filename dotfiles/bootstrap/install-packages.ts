@@ -4,12 +4,15 @@ $.nothrow();
 
 console.log(":::: Running install-packages.ts ::::");
 
+const MOCK_SPAWN = true;
+
 const COMMON_PACKAGES: string[] = [
     "btop",
     "micro",
     "zsh",
     "fastfetch",
     "stockfish",
+    "tmux",
 ];
 
 const EXTRA_MAC_PACKAGES: string[] = [
@@ -24,12 +27,15 @@ const OS = process.platform;
 
 console.log("   Detected OS:", OS);
 
-function spawn(cmd: string[]): void {
-    console.log("   >>>> Running cmd:", cmd.join(" "));
-    return;
+function spawn(cmd: string[], out: "inherit" | "ignore" = "inherit"): void {
+    if (MOCK_SPAWN) {
+        console.log("   >>>> Running cmd:", cmd.join(" "));
+        return;
+    }
+
     Bun.spawnSync(cmd, {
-        stdout: "inherit",
-        stderr: "inherit",
+        stdout: out,
+        stderr: out,
         stdin: "ignore",
     });
 }
